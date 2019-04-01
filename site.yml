@@ -1,0 +1,32 @@
+---
+- name: apply common configuration to all nodes
+  hosts: all
+  gather_facts: false
+  become: true
+
+  roles:
+    - common
+
+- name: configure and deploy the webservers and application code
+  hosts: apps
+  gather_facts: false
+  become: true
+
+  roles:
+    - app
+
+- name: configure and deploy the HAProxy server
+  hosts: frontends
+  gather_facts: false 
+  become: true
+
+  roles:
+    - proxy
+
+- name: deploy PostgreSQL and configure the databases
+  hosts: appdbs
+  gather_facts: false
+  become: true
+
+  roles:
+    - db
